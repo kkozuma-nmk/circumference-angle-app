@@ -242,7 +242,7 @@ function handleStart(event) {
     const mouseY = (event.clientY || event.touches[0].clientY) - rect.top;
 
     for (const point of Object.values(points)) {
-        if (Math.sqrt(Math.pow(mouseX - point.x, 2) + Math.pow(mouseY - point.y, 2)) < 100) {
+        if (Math.sqrt(Math.pow(mouseX - point.x, 2) + Math.pow(mouseY - point.y, 2)) < 300) {
             point.dragging = true;
             break;
         }
