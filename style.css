@@ -40,11 +40,11 @@ p {
 
 canvas {
     border: 2px solid #4a90e2;
-    border-radius: 5px;
+    border-radius: 10px;
     background-color: #fafafa;
 }
 
-/* button {
+button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 1rem;
@@ -58,4 +58,4 @@ canvas {
 
 button:hover {
     background-color: #357ABD;
-} */
+}

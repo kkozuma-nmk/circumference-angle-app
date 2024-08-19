@@ -3,8 +3,9 @@ const ctx = canvas.getContext('2d');
 const center = { x: 200, y: 200 };
 const radius = 150;
 
+
 let points = {
-    P: { x: 200, y: 50, dragging: false },
+    P: { x: 200, y: 50, dragging: false, },
     A: { x: 200-75*Math.sqrt(3), y: 275, dragging: false },
     B: { x: 200+75*Math.sqrt(3), y: 275, dragging: false },
 };
@@ -18,6 +19,8 @@ function drawCircle() {
 function drawPoint(point, label) {
     ctx.beginPath();
     ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI);
+    ctx.fillStyle = 'black';
+    ctx.font = '20px Arial' ;
     ctx.fill();
     ctx.fillText(label, point.x + 10, point.y);
 }
@@ -45,7 +48,7 @@ function prime(O,A,ratio){
 }
 
 
-function drawArcSector(center, A, B, ratio) {
+function drawArcSector(center, A, B, ratio,color) {
     // 点A', B'の計算
     const A_prime = prime(center,A,ratio);
     const B_prime = prime(center,B,ratio);
@@ -61,7 +64,7 @@ function drawArcSector(center, A, B, ratio) {
     ctx.arc(center.x, center.y, radius * ratio / (ratio + 1), angleOA, angleOB); // 弧を描く
     ctx.lineTo(center.x, center.y); // O点に戻る
     ctx.closePath();
-    ctx.fillStyle = 'blue'; // 塗りつぶしの色
+    ctx.fillStyle = color; // 塗りつぶしの色
     ctx.fill();
 }
 
@@ -186,12 +189,12 @@ function draw() {
     const P_prime = findCPrime(points.P, points.A, points.B,0.2);
 
     if (crossProduct < 0) {
-        drawArcSector(center, points.B, points.A, 0.2);
-        drawArcSector(points.P, points.B, points.A, 0.2); // 時計回り
+        drawArcSector(center, points.B, points.A, 0.2 ,'red');
+        drawArcSector(points.P, points.B, points.A, 0.2,'blue'); // 時計回り
         
     } else {
-        drawArcSector(center, points.A, points.B, 0.2);
-        drawArcSector(points.P, points.A, points.B, 0.2); // 反時計回り
+        drawArcSector(center, points.A, points.B, 0.2,'red');
+        drawArcSector(points.P, points.A, points.B, 0.2,'blue'); // 反時計回り
     }
 
     // おうぎ形を描画
@@ -209,6 +212,7 @@ function draw() {
     // // ∠AOBの表示位置を円の内側に調整
     ctx.font = '20px Arial';
     ctx.textAlign = "center";
+    ctx.fillStyle = 'red';
     ctx.fillText(`${displayedAngleAOB.toFixed(0)}°`, O_prime.x, O_prime.y);
 
 }
@@ -318,7 +322,23 @@ function handleEnd() {
 
 draw();
 
-// window.showNextDiagram = function() {
-//     // 次の図を表示するロジックをここに追加します
-//     drawPoint(point, label);
-// };
+window.showNextDiagram = function() {
+    // 次の図を表示するロジックをここに追加します
+
+    // 最初の図（中心角が120°、円周角が60°）に戻す
+    points = {
+    P: { x: 200, y: 50, dragging: false },
+    A: { x: 200-75*Math.sqrt(3), y: 275, dragging: false },
+    B: { x: 200+75*Math.sqrt(3), y: 275, dragging: false },
+};
+
+    draw(); // 図を再描画
+};
+
+window.showNextDiagram2 = function() {
+    // 次の図を表示するロジックをここに追加します
+    ctx.strokeStyle = 'green';
+    drawLine(center,points.P);
+    ctx.strokeStyle = 'black';
+    // draw(); // 図を再描画
+};
