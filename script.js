@@ -233,16 +233,29 @@ function snapToCircle(x, y) {
 
 
 // mousedown と touchstart の両方に対応
-canvas.addEventListener('mousedown', handleStart);
-canvas.addEventListener('touchstart', handleStart);
+canvas.addEventListener('mousedown', handleStartPc);
+canvas.addEventListener('touchstart', handleStartTablet);
 
-function handleStart(event) {
+function handleStartPc(event) {
     const rect = canvas.getBoundingClientRect();
     const mouseX = (event.clientX || event.touches[0].clientX) - rect.left;
     const mouseY = (event.clientY || event.touches[0].clientY) - rect.top;
 
     for (const point of Object.values(points)) {
-        if (Math.sqrt(Math.pow(mouseX - point.x, 2) + Math.pow(mouseY - point.y, 2)) < 500) {
+        if (Math.sqrt(Math.pow(mouseX - point.x, 2) + Math.pow(mouseY - point.y, 2)) < 10) {
+            point.dragging = true;
+            break;
+        }
+    }
+}
+
+function handleStartTablet(event) {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = (event.clientX || event.touches[0].clientX) - rect.left;
+    const mouseY = (event.clientY || event.touches[0].clientY) - rect.top;
+
+    for (const point of Object.values(points)) {
+        if (Math.sqrt(Math.pow(mouseX - point.x, 2) + Math.pow(mouseY - point.y, 2)) < 1000) {
             point.dragging = true;
             break;
         }
